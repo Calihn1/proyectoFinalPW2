@@ -66,6 +66,13 @@ REST_FRAMEWORK = {
     ],
 }
 
+CORS_ALLOW_HEADERS = [
+    "content-type",
+    "authorization",
+    "x-csrftoken",
+    "x-requested-with",
+]
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:4200",

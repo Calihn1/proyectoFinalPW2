@@ -1,0 +1,27 @@
+.accordion-button {
+    transition: background-color 0.2s ease-in-out;
+}
+
+.accordion-button:not(.collapsed) {
+    color: #0c63e4;
+    background-color: #e7f1ff;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.125);
+}
+
+.accordion-button:focus {
+    z-index: 3;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.accordion-item {
+    border-bottom: 1px solid rgba(0, 0, 0, .125);
+}
+
+.accordion-item:first-of-type {
+    border-top: 1px solid rgba(0, 0, 0, .125);
+}
+
+.table {
+    --bs-table-hover-bg: rgba(0, 0, 0, 0.04);
+}

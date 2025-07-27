@@ -1,0 +1,30 @@
+<div *ngIf="user() as u" class="ms-auto position-relative">
+  <!-- Burbuja que tiene las iniciales del usuario-->
+  <div
+    class="bg-white text-primary border border-primary rounded-pill d-inline-flex justify-content-center align-items-center fw-bold px-3 gap-2"
+    style="height: 48px; cursor: pointer; font-size: 1.1rem;"
+    (click)="toggleMenu()"
+  >
+    {{ getInitials() }}
+    <i class="bi bi-caret-down-fill fs-6"></i>
+  </div>
+
+  <!-- Menu desplegable -->
+  <div
+    *ngIf="showMenu()"
+    class="position-absolute end-0 mt-2 bg-white rounded shadow p-3"
+    style="min-width: 220px; z-index: 1000;"
+  >
+    <div class="mb-3">
+      <strong>{{ u.first_name }} {{ u.last_name }}</strong><br />
+    </div>
+
+    <button
+      class="btn btn-sm btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2"
+      (click)="logout()"
+    >
+      <i class="bi bi-box-arrow-right"></i>
+      Cerrar sesión
+    </button>
+  </div>
+</div>

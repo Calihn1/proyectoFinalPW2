@@ -1,0 +1,19 @@
+<div class="container-fluid p-3">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm bg-light border-0">
+        <div class="card-header bg-primary text-white fw-bold d-flex justify-content-between align-items-center">
+          <span><i class="bi bi-pencil-square me-2"></i>Editar Producto</span>
+        </div>
+        <div class="card-body p-4" *ngIf="producto; else cargando">
+          <app-producto-form [producto]="producto" (guardar)="editarProducto($event)"></app-producto-form>
+        </div>
+        <ng-template #cargando>
+          <div class="alert alert-warning text-center m-0 rounded-0">
+            <i class="bi bi-hourglass-split"></i> Cargando producto...
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

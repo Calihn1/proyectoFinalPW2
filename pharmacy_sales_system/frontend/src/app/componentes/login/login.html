@@ -1,0 +1,48 @@
+<div class="container-fluid bg-light min-vh-100 d-flex justify-content-center align-items-center">
+  <div class="card shadow-sm p-4 rounded" style="max-width: 400px; width: 100%;">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold text-primary">Iniciar Sesión</h2>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="username" class="form-label">Usuario</label>
+        <input
+          type="text"
+          id="username"
+          formControlName="username"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': form.controls['username'].invalid && form.controls['username'].touched }"
+        />
+        <div class="invalid-feedback">
+          El usuario es obligatorio.
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': form.controls['password'].invalid && form.controls['password'].touched }"
+        />
+        <div class="invalid-feedback">
+          La contraseña es obligatoria.
+        </div>
+      </div>
+
+      <div class="d-grid mb-3">
+        <button class="btn btn-primary" type="submit" [disabled]="loading || form.invalid">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          {{ loading ? 'Ingresando...' : 'Entrar' }}
+        </button>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger text-center p-2">
+        {{ errorMessage }}
+      </div>
+    </form>
+  </div>
+</div>

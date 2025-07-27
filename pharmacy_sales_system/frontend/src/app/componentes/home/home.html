@@ -1,0 +1,126 @@
+<div class="pos-container container-fluid bg-light p-3">
+    <!-- BARRA DE NAVEGACIÓN ÚNICA Y CORRECTA -->
+    <header class="navbar navbar-expand-lg navbar-dark bg-primary rounded-top shadow-sm px-3 mb-3">
+        <div class="container-fluid p-0 d-flex justify-content-between">
+
+            <!-- Grupo de íconos de la izquierda -->
+            <ul class="navbar-nav d-flex flex-row align-items-center">
+                <li class="nav-item me-3">
+                    <a routerLink="/productos" class="nav-link text-white d-flex flex-column align-items-center">
+                        <i class="bi bi-box-seam fs-4"></i><small>Productos</small>
+                    </a>
+                </li>
+                <li class="nav-item me-3">
+                    <a class="nav-link text-white d-flex flex-column align-items-center" routerLink="/historial-ventas"
+                        routerLinkActive="active">
+                        <i class="bi bi-receipt-cutoff fs-4"></i>Historial
+                    </a>
+                </li>
+                <li *ngIf="currentUser?.rol === 'propietario'" class="nav-item me-3">
+                    <a class="nav-link text-white d-flex flex-column align-items-center" routerLink="/estadisticas" routerLinkActive="active">
+                        <i class="bi bi-graph-up-arrow fs-4"></i>
+                        <span>Estadísticas</span>
+                    </a>
+                </li>
+                <!-- Botón para Usuarios (Visible solo para admin/propietario) -->
+                <li *ngIf="currentUser?.rol === 'admin' || currentUser?.rol === 'propietario'" class="nav-item me-3">
+                    <a routerLink="/users" class="nav-link text-white d-flex flex-column align-items-center"
+                        title="Usuarios">
+                        <i class="bi bi-person-plus fs-4"></i><small>Usuarios</small>
+                    </a>
+                </li>
+            </ul>
+
+            <app-navbar></app-navbar>
+
+        </div>
+    </header>
+
+    <!-- Contenido principal de la página -->
+    <div class="row g-3">
+        <div class="col-lg-5 d-flex flex-column">
+            <div class="card shadow-sm flex-grow-1">
+                <div class="card-header fw-bold">Productos</div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush message-list">
+                        <li *ngFor="let producto of productos" class="list-group-item d-flex align-items-center">
+                            {{ producto.codigo }} - {{ producto.nombre }} - S/ {{ producto.precio }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card shadow-sm mt-3">
+                <div class="card-body bg-primary-subtle rounded">
+                    <h5 class="card-title text-primary-emphasis">Escanear artículo o UPC</h5>
+                    <div class="input-group">
+                        <input type="text" [(ngModel)]="codigoInput" (keyup.enter)="escanearProducto()"
+                            class="form-control form-control-lg" placeholder="Escanee o teclee un ID o UPC de artículo">
+                        <button class="btn btn-primary" type="button" (click)="escanearProducto()">
+                            <i class="bi bi-upc-scan fs-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detalle carrito -->
+
+        <div class="col-lg-7 d-flex flex-column">
+            <div class="card shadow-sm flex-grow-1">
+                <div class="card-header fw-bold">Carrito de Ventas</div>
+                <div class="card-body p-0" style="min-height: 200px; overflow-y: auto;">
+                    <ul class="list-group list-group-flush">
+                        <li *ngIf="carrito.length === 0" class="list-group-item text-center text-muted">
+                            El carrito está vacío
+                        </li>
+                        <li *ngFor="let item of carrito"
+                            class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                {{ item.nombre }} x {{ item.cantidad }}
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="badge bg-primary rounded-pill me-2">S/ {{ (item.precio *
+                                    item.cantidad).toFixed(2) }}</span>
+                                <button class="btn btn-sm btn-outline-danger" (click)="eliminarItem(item)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <strong>Subtotal:</strong>
+                        <span>S/ {{ totalBruto.toFixed(2) }}</span>
+                    </div>
+
+                    <div *ngIf="descuento > 0" class="d-flex justify-content-between align-items-center text-danger">
+                        <strong>Descuento ({{ descuento }}%):</strong>
+                        <span>- S/ {{ (totalBruto - totalNeto).toFixed(2) }}</span>
+                    </div>
+
+                    <hr *ngIf="descuento > 0">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <strong class="fs-5">Total a Pagar:</strong>
+                        <span class="fs-5 fw-bold">S/ {{ totalNeto.toFixed(2) }}</span>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-around">
+                    <button class="btn btn-warning" (click)="agregarDescuento()" title="Agregar Descuento">
+                        <i class="bi bi-percent"></i> Descuento
+                    </button>
+                    <button class="btn btn-success" (click)="procederCompra()" title="Proceder a la Compra">
+                        <i class="bi bi-check-circle"></i> Comprar
+                    </button>
+                    <button class="btn btn-secondary" (click)="generarComprobante()" title="Generar Comprobante">
+                        <i class="bi bi-receipt"></i> Comprobante
+                    </button>
+                    <button class="btn btn-danger" (click)="resetearCarrito()" title="Vaciar Carrito">
+                        <i class="bi bi-trash2-fill"></i> Vaciar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

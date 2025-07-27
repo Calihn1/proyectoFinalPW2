@@ -1,0 +1,61 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h3 class="card-title text-center mb-4">Registrar Nuevo Usuario</h3>
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="first_name" class="form-label">Nombres</label>
+                <input type="text" id="first_name" class="form-control" formControlName="first_name" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="last_name" class="form-label">Apellidos</label>
+                <input type="text" id="last_name" class="form-control" formControlName="last_name" required>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="username" class="form-label">Nombre de Usuario</label>
+              <input type="text" id="username" class="form-control" formControlName="username" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="rol" class="form-label">Rol</label>
+              <select id="rol" class="form-select" formControlName="rol">
+                <option value="vendedor">Vendedor</option>
+                <option value="admin">Administrador</option>
+                <!-- Un propietario no debería poder crear a otro propietario según tu lógica -->
+              </select>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" id="password" class="form-control" formControlName="password" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="confirms" class="form-label">Confirmar Contraseña</label>
+                <input type="password" id="confirms" class="form-control" formControlName="confirms" required>
+              </div>
+            </div>
+             <div *ngIf="registerForm.errors?.['mismatch'] && registerForm.get('confirms')?.touched" class="alert alert-warning mt-2">
+    Las contraseñas no coinciden.
+</div>
+
+            <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+            <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">
+                Crear Usuario
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

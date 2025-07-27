@@ -1,0 +1,45 @@
+# --- Python bytecode ---
+__pycache__/
+*.py[cod]
+
+# --- Entorno virtual ---
+env/
+venv/
+.venv/
+ENV/
+.Python
+
+# --- Archivos temporales y logs ---
+*.log
+*.pot
+*.pyc
+*.pyo
+*.mo
+*.bak
+*.swp
+*.tmp
+
+# --- Archivos de base de datos ---
+*.sqlite3
+db.sqlite3
+
+# --- Archivos de configuración local ---
+.env
+.env.*
+local_settings.py
+secrets.json
+
+# --- Django media/static (si los generas dinámicamente) ---
+media/
+staticfiles/
+
+# --- Archivos de migración que no quieres versionar (opcional) ---
+**/migrations/__pycache__/
+**/migrations/*.pyc
+# Si no quieres ignorar los archivos de migración, elimina esta parte
+
+# --- IDEs y sistema ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

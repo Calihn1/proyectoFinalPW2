@@ -1,0 +1,41 @@
+.chart-area,
+.chart-pie,
+.chart-bar {
+    position: relative;
+    height: 320px;
+    width: 100%;
+}
+
+.text-gray-300 {
+    color: #dddfeb !important;
+}
+
+.text-gray-800 {
+    color: #5a5c69 !important;
+}
+
+.card .border-left-success {
+    border-left: .25rem solid #1cc88a !important;
+}
+
+.card .border-left-warning {
+    border-left: .25rem solid #f6c23e !important;
+}
+
+.card .border-left-danger {
+    border-left: .25rem solid #e74a3b !important;
+}
+
+.card .border-left-secondary {
+    border-left: .25rem solid #858796 !important;
+}
+
+.card-clickable {
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card-clickable:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+}

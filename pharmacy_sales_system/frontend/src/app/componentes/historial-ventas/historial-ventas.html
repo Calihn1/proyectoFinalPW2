@@ -1,0 +1,124 @@
+<div class="card-footer">
+    <a routerLink="/home" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left-circle me-2"></i>Volver
+    </a>
+</div>
+<div class="container mt-4 mb-5">
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label for="filtroAnio" class="form-label">Año</label>
+                    <select id="filtroAnio" class="form-select" [(ngModel)]="filtroAnio" (change)="onAnioChange()">
+                        <option [ngValue]="null" selected>Seleccionar Año</option>
+                        <option *ngFor="let anio of opcionesAnio" [value]="anio">{{ anio }}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="filtroMes" class="form-label">Mes</label>
+                    <select id="filtroMes" class="form-select" [(ngModel)]="filtroMes" (change)="onMesChange()"
+                        [disabled]="!filtroAnio">
+                        <option [ngValue]="null" selected>Seleccionar Mes</option>
+                        <option *ngFor="let mes of opcionesMes" [value]="mes.valor">{{ mes.nombre }}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="filtroDia" class="form-label">Día</label>
+                    <select id="filtroDia" class="form-select" [(ngModel)]="filtroDia" [disabled]="!filtroMes">
+                        <option [ngValue]="null" selected>Seleccionar Día</option>
+                        <option *ngFor="let dia of opcionesDia" [value]="dia">{{ dia }}</option>
+                    </select>
+                </div>
+                <div class="col-md-3 d-flex">
+                    <button class="btn btn-primary w-100 me-2" (click)="aplicarFiltro()" [disabled]="!filtroDia">
+                        <i class="bi bi-search me-1"></i>Filtrar
+                    </button>
+                    <button class="btn btn-outline-secondary" (click)="limpiarFiltros()" title="Mostrar Todas">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-dark text-white d-flex align-items-center">
+            <i class="bi bi-receipt-cutoff me-2" style="font-size: 1.5rem;"></i>
+            <h2 class="mb-0 h4">Resultados de Ventas</h2>
+        </div>
+
+        <div class="card-body p-0">
+
+            <div *ngIf="isLoading" class="text-center p-5">
+                <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span>
+                </div>
+            </div>
+            <div *ngIf="!isLoading && ventas.length === 0" class="text-center p-5">
+                <i class="bi bi-info-circle" style="font-size: 3rem; color: #6c757d;"></i>
+                <p class="mt-3 lead">No se encontraron ventas para los filtros seleccionados.</p>
+            </div>
+
+
+            <div class="accordion accordion-flush" id="accordionVentas" *ngIf="!isLoading && ventas.length > 0">
+                <div class="accordion-item" *ngFor="let venta of ventas; let i = index">
+                    <h2 class="accordion-header" [id]="'heading' + i">
+                        <button class="accordion-button collapsed fw-medium" type="button"
+                            (click)="toggleDetalles(venta.id)">
+                            <div class="d-flex w-100 justify-content-between align-items-center pe-2">
+                                <div>
+                                    <span class="text-primary">Venta #{{ venta.id }}</span>
+                                    <small class="text-muted ms-3"><i class="bi bi-calendar-event"></i> {{ venta.fecha |
+                                        date:'dd/MM/yyyy, h:mm a' }}</small>
+                                </div>
+
+                                <span class="badge bg-success-subtle text-success-emphasis rounded-pill fs-6">
+                                    {{ venta.total_neto | currency:'PEN':'S/.':'1.2-2' }}
+                                </span>
+                            </div>
+                        </button>
+                    </h2>
+                    <div [id]="'collapse' + i" class="accordion-collapse collapse"
+                        [class.show]="venta.detallesVisibles">
+                        <div class="accordion-body bg-light">
+                            <div class="row mb-3 pb-3 border-bottom">
+                                <div class="col-md-6">
+                                    <p class="mb-1"><strong>Vendedor:</strong> {{ venta.usuario.first_name }} {{
+                                        venta.usuario.last_name }}</p>
+                                    <p class="mb-1"><strong>Total Bruto:</strong> {{ venta.total_bruto |
+                                        currency:'PEN':'S/.':'1.2-2' }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="mb-1"><strong>Descuento Aplicado:</strong> {{ venta.descuento }}%</p>
+                                    <p class="mb-1"><strong>Total Neto Pagado:</strong> <strong class="text-success">{{
+                                            venta.total_neto | currency:'PEN':'S/.':'1.2-2' }}</strong></p>
+                                </div>
+                            </div>
+                            <h6 class="mb-3">Detalle de Productos</h6>
+                            <table class="table table-sm table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">Producto</th>
+                                        <th scope="col" class="text-center">Cantidad</th>
+                                        <th scope="col" class="text-end">Precio Unit.</th>
+                                        <th scope="col" class="text-end">Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let detalle of venta.detalles">
+                                        <td>{{ detalle.producto_nombre }}</td>
+                                        <td class="text-center">{{ detalle.cantidad }}</td>
+                                        <td class="text-end">{{ detalle.precio_unitario | currency:'PEN':'S/.':'1.2-2'
+                                            }}</td>
+                                        <td class="text-end">{{ detalle.subtotal | currency:'PEN':'S/.':'1.2-2' }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

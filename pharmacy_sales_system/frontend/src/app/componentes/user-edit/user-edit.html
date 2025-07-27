@@ -1,0 +1,46 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h3 class="card-title text-center mb-4">Editar Usuario</h3>
+          <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            
+            <div class="mb-3">
+              <label class="form-label">Nombre de Usuario</label>
+              <input formControlName="username" class="form-control">
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Nombres</label>
+                <input formControlName="first_name" class="form-control">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Apellidos</label>
+                <input formControlName="last_name" class="form-control">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Rol</label>
+              <select formControlName="rol" class="form-select">
+                <option value="vendedor">Vendedor</option>
+                <option value="admin">Administrador</option>
+              </select>
+            </div>
+
+            <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+            <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid">
+                Guardar Cambios
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

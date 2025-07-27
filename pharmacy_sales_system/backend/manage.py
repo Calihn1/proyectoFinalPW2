@@ -15,17 +15,13 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
 
-    # Crear superusuario automáticamente si no existe
     if 'runserver' in sys.argv or 'runserver_prod' in sys.argv:
-        try:
-            import django
-            django.setup()
-            from django.contrib.auth import get_user_model
-            User = get_user_model()
-            if not User.objects.filter(username='admin').exists():
-                User.objects.create_superuser('admin', 'admin@example.com', 'admin123')
-        except Exception as e:
-            print(f'Error creating superuser: {e}')
+        import django
+        django.setup()
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        if not User.objects.filter(username='admin').exists():
+            User.objects.create_superuser('admin', 'admin@example.com', 'admin123')
 
     execute_from_command_line(sys.argv)
 

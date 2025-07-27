@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework import routers
-from .views import csrf_token, loginView, logoutView, registerView, UserViewSet, CurrentUserView
+from .views import csrf_token, loginView, logoutView, registerView, UserViewSet, CurrentUserView, test_cookies
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -12,4 +12,5 @@ urlpatterns = [
     path('register/', registerView),
     path('check-user/', CurrentUserView.as_view()),
     path('', include(router.urls)),
+    path('/test-cookies/', test_cookies, name='test-cookies'),
 ]

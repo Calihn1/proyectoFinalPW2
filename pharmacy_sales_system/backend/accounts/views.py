@@ -36,6 +36,15 @@ class CurrentUserView(APIView):
         serializer = UserSerializer(usuario)
         return Response(serializer.data)
 
+@csrf_exempt  # Para evitar problemas con CSRF en esta prueba
+def test_cookies(request):
+    # Devuelve todas las cookies que llegan al backend
+    return JsonResponse({
+        'cookies': request.COOKIES,
+        'headers': dict(request.headers),
+        'session_key': request.session.session_key,
+    })
+
 @ensure_csrf_cookie
 def csrf_token(request):
     token = get_token(request)

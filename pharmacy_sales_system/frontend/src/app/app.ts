@@ -4,7 +4,8 @@ import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Home } from './componentes/home/home';
 import { Producto } from './services/producto';
 import { Csrf } from './services/csrf';
-import { Auth } from './services/auth'; 
+import { Auth } from './services/auth';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,8 @@ export class App implements OnInit {
   constructor(
     private producto: Producto,
     private csrf: Csrf,
-    private auth: Auth     
+    private auth: Auth,
+    private http: HttpClient    
   ) {}
 
   ngOnInit(): void {
@@ -42,5 +44,11 @@ export class App implements OnInit {
         console.log('Usuario no autenticado o sesión expirada');
       }
     });
+
+    this.http.get('https://proyectofinalpw2.onrender.com/api/test-cookies/', { withCredentials: true })
+      .subscribe({
+        next: (res) => console.log('Respuesta cookies:', res),
+        error: (err) => console.error('Error test cookies:', err),
+      });
   }
 }

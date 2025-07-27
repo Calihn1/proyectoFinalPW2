@@ -27,8 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-te7_cfm(22r4^s51i=f!u
 DEBUG = os.environ.get('RENDER') != 'true'
 
 
-ALLOWED_HOSTS = ['*']
-
+ALLOWED_HOSTS = ['proyectofinalpw2.onrender.com', 'proyectofinalpw2-1.onrender.com']
 
 # Application definition
 

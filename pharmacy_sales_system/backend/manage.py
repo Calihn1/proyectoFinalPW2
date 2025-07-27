@@ -3,7 +3,6 @@
 import os
 import sys
 
-
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pharmacy_sales_system.settings')
@@ -15,8 +14,20 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
-    execute_from_command_line(sys.argv)
 
+    # Crear superusuario automáticamente si no existe
+    if 'runserver' in sys.argv or 'runserver_prod' in sys.argv:
+        try:
+            import django
+            django.setup()
+            from django.contrib.auth import get_user_model
+            User = get_user_model()
+            if not User.objects.filter(username='admin').exists():
+                User.objects.create_superuser('admin', 'admin@example.com', 'admin123')
+        except Exception as e:
+            print(f'Error creating superuser: {e}')
+
+    execute_from_command_line(sys.argv)
 
 if __name__ == '__main__':
     main()

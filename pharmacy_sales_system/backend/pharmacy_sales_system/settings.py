@@ -47,10 +47,10 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Debe ir justo después del de seguridad
+    'corsheaders.middleware.CorsMiddleware',       # Lo ideal es que vaya antes de CommonMiddleware
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', 
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -74,28 +74,27 @@ CORS_ALLOW_HEADERS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
+    "https://proyectofinalpw2-1.onrender.com",
     "http://localhost:3000",
     "http://localhost:4200",
     'http://127.0.0.1:4200',
-    "https://proyectofinalpw2-1.onrender.com",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = [
+    "https://proyectofinalpw2-1.onrender.com",
     "http://localhost:3000",
     "http://localhost:4200",
-    'http://127.0.0.1:4200',
-    "https://proyectofinalpw2-1.onrender.com", 
+    'http://127.0.0.1:4200', 
 ]
 
 ROOT_URLCONF = 'pharmacy_sales_system.urls'
 
-CSRF_COOKIE_HTTPONLY = False
-CSRF_COOKIE_SECURE = False
-SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_SAMESITE = 'Lax'   # o 'None' si lo necesitas
-SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SAMESITE = "None"
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = "None"
+CSRF_COOKIE_SECURE = True
 
 TEMPLATES = [
     {

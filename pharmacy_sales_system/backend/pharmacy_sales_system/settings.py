@@ -68,15 +68,19 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
     "http://localhost:4200",
     'http://127.0.0.1:4200',
+    "https://proyectofinalpw2-1.onrender.com",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
     "http://localhost:4200",
     'http://127.0.0.1:4200',
+    "https://proyectofinalpw2-1.onrender.com", 
 ]
 
 ROOT_URLCONF = 'pharmacy_sales_system.urls'

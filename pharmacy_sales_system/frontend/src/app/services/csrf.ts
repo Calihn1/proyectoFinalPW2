@@ -6,7 +6,7 @@ export class Csrf {
   constructor(private http: HttpClient) {}
 
   getToken() {
-    return this.http.get<{ csrfToken: string }>('http://localhost:8000/api/csrf/', {
+    return this.http.get<{ csrfToken: string }>('https://proyectofinalpw2.onrender.com/api/csrf/', {
       withCredentials: true
     });
   }

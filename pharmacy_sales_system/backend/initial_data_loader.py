@@ -7,7 +7,7 @@ django.setup()
 from django.core.management import call_command
 
 try:
-    call_command('loaddata', 'datos.json')
+    call_command('loaddata', 'data.json')
     print("Datos cargados exitosamente")
 except Exception as e:
     print("Error al cargar datos:", e)

@@ -25,5 +25,26 @@ def main():
 
     execute_from_command_line(sys.argv)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
+
+    # --- Crear usuario propietario si no existe ---
+    import django
+    django.setup()
+    from django.contrib.auth import get_user_model
+
+    User = get_user_model()
+    username = "propietario"
+
+    if not User.objects.filter(username=username).exists():
+        User.objects.create_user(
+            username=username,
+            email="propietario@example.com",
+            password="propietario123",
+            first_name="Prop",
+            last_name="Ietario",
+            rol="propietario"  # Asegúrate de que este campo exista en tu modelo
+        )
+        print("✅ Usuario propietario creado.")
+    else:
+        print("ℹ️ Usuario propietario ya existe.")

@@ -26,14 +26,9 @@ export class App implements OnInit {
 
   ngOnInit(): void {
     // Obtener token CSRF al iniciar
-    this.csrf.getToken().subscribe({
-      next: (res: any) => {
-        console.log('Token CSRF recibido:', res.csrfToken);
-        console.log('Cookies actuales:', document.cookie);
-      },
-      error: (err: any) => {
-        console.error('Error al obtener token CSRF', err);
-      }
+    this.csrf.fetchToken().subscribe({
+      next: () => console.log('Token CSRF obtenido y guardado'),
+      error: err => console.error('Error al obtener token CSRF', err)
     });
 
     this.auth.checkAuth().subscribe({

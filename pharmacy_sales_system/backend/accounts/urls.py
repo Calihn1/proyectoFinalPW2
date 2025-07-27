@@ -11,6 +11,6 @@ urlpatterns = [
     path('logout/', logoutView),
     path('register/', registerView),
     path('check-user/', CurrentUserView.as_view()),
+    path('test-cookies/', test_cookies),
     path('', include(router.urls)),
-    path('/test-cookies/', test_cookies, name='test-cookies'),
 ]

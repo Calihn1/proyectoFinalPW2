@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Api } from '../../services/api';
-import { BaseChartDirective } from 'ng2-charts';
+import { NgChartsModule } from 'ng2-charts'; 
 import { Chart, ChartConfiguration, ChartOptions, ChartType, registerables } from 'chart.js';
 import { RouterModule } from '@angular/router';
 interface ProductoInfo {
@@ -21,7 +21,7 @@ interface StockStatus {
 @Component({
   selector: 'app-estadisticas',
   standalone: true,
-  imports: [CommonModule, BaseChartDirective, RouterModule],
+  imports: [CommonModule, NgChartsModule, RouterModule],
   templateUrl: './estadisticas.html',
   styleUrls: ['./estadisticas.css']
 })

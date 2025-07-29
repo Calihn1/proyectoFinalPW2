@@ -8,10 +8,11 @@ import { Navbar } from '../navbar/navbar';
 import { jsPDF } from 'jspdf';
 import { autoTable } from 'jspdf-autotable';
 import { Venta, VentaD, VentaCreada } from '../../services/venta';
+import { ModalInforme } from '../modal-informe/modal-informe';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, RouterLink, FormsModule, Navbar],
+  imports: [CommonModule, RouterLink, FormsModule, Navbar, ModalInforme],
   templateUrl: 'home.html',
   styleUrl: 'home.css'
 })
@@ -178,10 +179,10 @@ export class Home implements OnInit {
 
     doc.setFontSize(22);
     doc.setFont('helvetica', 'bold');
-    doc.text('Tu Farma S.A.C.', 20, 30);
+    doc.text('Botica Vida y Salud', 20, 30);
     doc.setFontSize(12);
     doc.setFont('helvetica', 'normal');
-    doc.text(`Factura N° ${String(this.ultimaVentaId).padStart(5, '0')}`, pageWidth - 20, 30, { align: 'right' });
+    doc.text(`Comprobante N° ${String(this.ultimaVentaId).padStart(5, '0')}`, pageWidth - 20, 30, { align: 'right' });
     doc.text(`Fecha: ${new Date().toLocaleDateString('es-ES')}`, pageWidth - 20, 37, { align: 'right' });
     doc.setLineWidth(0.5);
     doc.line(20, 45, pageWidth - 20, 45);

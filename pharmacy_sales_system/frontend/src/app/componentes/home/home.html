@@ -1,9 +1,7 @@
 <div class="pos-container container-fluid bg-light p-3">
-    <!-- BARRA DE NAVEGACIÓN ÚNICA Y CORRECTA -->
     <header class="navbar navbar-expand-lg navbar-dark bg-primary rounded-top shadow-sm px-3 mb-3">
         <div class="container-fluid p-0 d-flex justify-content-between">
 
-            <!-- Grupo de íconos de la izquierda -->
             <ul class="navbar-nav d-flex flex-row align-items-center">
                 <li class="nav-item me-3">
                     <a routerLink="/productos" class="nav-link text-white d-flex flex-column align-items-center">
@@ -16,13 +14,13 @@
                         <i class="bi bi-receipt-cutoff fs-4"></i>Historial
                     </a>
                 </li>
-                <li *ngIf="currentUser?.rol === 'propietario'" class="nav-item me-3">
+                <li *ngIf="currentUser?.rol === 'admin' || currentUser?.rol === 'propietario'" class="nav-item me-3">
                     <a class="nav-link text-white d-flex flex-column align-items-center" routerLink="/estadisticas" routerLinkActive="active">
                         <i class="bi bi-graph-up-arrow fs-4"></i>
                         <span>Estadísticas</span>
                     </a>
                 </li>
-                <!-- Botón para Usuarios (Visible solo para admin/propietario) -->
+
                 <li *ngIf="currentUser?.rol === 'admin' || currentUser?.rol === 'propietario'" class="nav-item me-3">
                     <a routerLink="/users" class="nav-link text-white d-flex flex-column align-items-center"
                         title="Usuarios">
@@ -36,7 +34,7 @@
         </div>
     </header>
 
-    <!-- Contenido principal de la página -->
+
     <div class="row g-3">
         <div class="col-lg-5 d-flex flex-column">
             <div class="card shadow-sm flex-grow-1">
@@ -62,8 +60,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Detalle carrito -->
 
         <div class="col-lg-7 d-flex flex-column">
             <div class="card shadow-sm flex-grow-1">
@@ -124,3 +120,10 @@
         </div>
     </div>
 </div>
+<div class="mt-4 d-flex justify-content-end gap-2">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#informeModal">
+            <i class="bi bi-file-earmark-arrow-down-fill me-2"></i>Generar Informe
+        </button>
+    </div>
+
+<app-modal-informe></app-modal-informe>

@@ -39,7 +39,7 @@ export class Login implements OnInit {
         this.form.reset();
         this.router.navigate(['/home']);
       },
-      error: (err) => {
+      error: () => {
         this.errorMessage = 'Credenciales inválidas';
         this.loading = false;
       },

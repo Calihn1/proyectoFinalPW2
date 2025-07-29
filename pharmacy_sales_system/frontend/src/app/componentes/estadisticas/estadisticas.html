@@ -1,1 +1,170 @@
-<p>estadistidas works!</p>
+<div class="card-footer">
+    <a routerLink="/home" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left-circle me-2"></i>Volver
+    </a>
+</div>
+<div class="container-fluid p-4">
+    <div class="mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Panel de Estadísticas</h1>
+    </div>
+
+    <div class="row">
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2 card-clickable"
+                (click)="verDetalleStock('suficiente')" data-bs-toggle="modal" data-bs-target="#stockDetailModal">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs fw-bold text-success text-uppercase mb-1">Stock Suficiente</div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">{{ stockCounts.suficiente }}</div>
+                        </div>
+                        <div class="col-auto"><i class="bi bi-check-circle-fill fs-2 text-gray-300"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2 card-clickable" (click)="verDetalleStock('bajo')"
+                data-bs-toggle="modal" data-bs-target="#stockDetailModal">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs fw-bold text-warning text-uppercase mb-1">Stock Bajo</div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">{{ stockCounts.bajo }}</div>
+                        </div>
+                        <div class="col-auto"><i class="bi bi-exclamation-triangle-fill fs-2 text-gray-300"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-danger shadow h-100 py-2 card-clickable" (click)="verDetalleStock('critico')"
+                data-bs-toggle="modal" data-bs-target="#stockDetailModal">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs fw-bold text-danger text-uppercase mb-1">Stock Crítico</div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">{{ stockCounts.critico }}</div>
+                        </div>
+                        <div class="col-auto"><i class="bi bi-shield-fill-exclamation fs-2 text-gray-300"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-secondary shadow h-100 py-2 card-clickable"
+                (click)="verDetalleStock('agotado')" data-bs-toggle="modal" data-bs-target="#stockDetailModal">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs fw-bold text-secondary text-uppercase mb-1">Agotados</div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">{{ stockCounts.agotado }}</div>
+                        </div>
+                        <div class="col-auto"><i class="bi bi-x-circle-fill fs-2 text-gray-300"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 fw-bold text-primary">Ingresos por Ventas (Últimos 90 días)</h6>
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-primary" (click)="cargarVentasPorFecha('daily')">Diario</button>
+                        <button class="btn btn-outline-primary"
+                            (click)="cargarVentasPorFecha('weekly')">Semanal</button>
+                        <button class="btn btn-outline-primary"
+                            (click)="cargarVentasPorFecha('monthly')">Mensual</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas baseChart [data]="lineChartData" [options]="lineChartOptions"
+                            [type]="lineChartType"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-lg-5">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 fw-bold text-primary">Distribución de Inventario</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-pie pt-4">
+                        <canvas baseChart [data]="doughnutChartData" [options]="doughnutChartOptions"
+                            [type]="doughnutChartType"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 fw-bold text-primary">Top 10 Productos</h6>
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-primary" (click)="cargarTopProductos('facturacion')">Por
+                            Facturación</button>
+                        <button class="btn btn-outline-primary" (click)="cargarTopProductos('volumen')">Por
+                            Volumen</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-bar">
+                        <canvas baseChart [data]="barChartData" [options]="barChartOptions"
+                            [type]="barChartType"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="modal fade" id="stockDetailModal" tabindex="-1" aria-labelledby="stockDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="stockDetailModalLabel">{{ modalTitulo }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="isLoadingModal" class="text-center p-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                </div>
+                <div *ngIf="!isLoadingModal && productosModal.length > 0" class="table-responsive">
+                    <table class="table table-striped table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">Producto</th>
+                                <th scope="col" class="text-center">Stock Actual</th>
+                                <th scope="col" class="text-center">Stock Mínimo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let producto of productosModal">
+                                <td>{{ producto.nombre }}</td>
+                                <td class="text-center">{{ producto.cantidad }}</td>
+                                <td class="text-center">{{ producto.stock_minimo }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div *ngIf="!isLoadingModal && productosModal.length === 0" class="p-4">
+                    <p class="text-center text-muted mb-0">No hay productos en esta categoría.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

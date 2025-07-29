@@ -3,8 +3,7 @@ import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Api } from '../../services/api';
 import { BaseChartDirective } from 'ng2-charts';
 import { Chart, ChartConfiguration, ChartOptions, ChartType, registerables } from 'chart.js';
-import { RouterLink } from '@angular/router'; 
-
+import { RouterModule } from '@angular/router';
 interface ProductoInfo {
   nombre: string;
   cantidad: number;
@@ -22,7 +21,7 @@ interface StockStatus {
 @Component({
   selector: 'app-estadisticas',
   standalone: true,
-  imports: [CommonModule, CurrencyPipe, RouterLink], 
+  imports: [CommonModule, BaseChartDirective, RouterModule],
   templateUrl: './estadisticas.html',
   styleUrls: ['./estadisticas.css']
 })
@@ -53,7 +52,7 @@ export class Estadisticas implements OnInit {
   }
 
   verDetalleStock(estado: 'suficiente' | 'bajo' | 'critico' | 'agotado'): void {
-    this.productosModal = []; 
+    this.productosModal = [];
     this.isLoadingModal = true;
 
     switch (estado) {

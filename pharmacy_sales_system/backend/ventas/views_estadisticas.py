@@ -69,7 +69,7 @@ class StockStatusAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        queryset = Producto.objects.annotate(
+        queryset = Producto.objects.filter(estado=True).annotate(
             status=Case(
                 When(cantidad=0, then=Value('agotado')),
                 When(cantidad__lte=F('stock_minimo'), then=Value('critico')),
@@ -82,6 +82,7 @@ class StockStatusAPIView(APIView):
         ).order_by('status')
 
         return Response(list(queryset))
+
     
 class ProductosPorEstadoAPIView(APIView):
 
@@ -92,20 +93,16 @@ class ProductosPorEstadoAPIView(APIView):
         if not estado_solicitado:
             return Response({"error": "El parámetro 'estado' es requerido."}, status=400)
 
-        status_filters = {
-            'agotado': Q(cantidad=0),
-            'critico': Q(cantidad__gt=0, cantidad__lte=F('stock_minimo')),
-            'bajo': Q(cantidad__gt=F('stock_minimo'), cantidad__lte=F('stock_minimo') * 1.25),
-            'suficiente': Q(cantidad__gt=F('stock_minimo') * 1.25)
-        }
-
-        filtro = status_filters.get(estado_solicitado)
-
-        if not filtro:
-            return Response({"error": "Estado no válido."}, status=400)
-
-        queryset = Producto.objects.filter(
-            filtro
+        queryset = Producto.objects.filter(estado=True).annotate(
+            status=Case(
+                When(cantidad=0, then=Value('agotado')),
+                When(cantidad__lte=F('stock_minimo'), then=Value('critico')),
+                When(cantidad__lte=F('stock_minimo') * 1.25, then=Value('bajo')),
+                default=Value('suficiente'),
+                output_field=models.CharField(),
+            )
+        ).filter(
+            status=estado_solicitado
         ).values(
             'nombre', 'cantidad', 'stock_minimo'
         ).order_by('nombre')

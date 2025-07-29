@@ -1,7 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { Api } from './api';
 import { tap } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',

@@ -8,10 +8,8 @@ export const CsrfInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
   
-  // Inyectamos el servicio de forma manual
   const csrfService = inject(Csrf);
 
-  // Obtenemos el token guardado en el servicio
   const token = csrfService.getToken();
 
   const methodsToInclude = ['POST', 'PUT', 'PATCH', 'DELETE'];

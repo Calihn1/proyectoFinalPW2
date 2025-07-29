@@ -1,1 +1,55 @@
-<p>modal-informe works!</p>
+<div class="modal fade" id="informeModal" tabindex="-1" aria-labelledby="informeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="informeModalLabel">Generar y Enviar Informe</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="mensaje.texto=''"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="mb-3">
+                    <label class="form-label">Seleccione el Período del Informe:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="periodo" id="periodoDia" value="dia"
+                            [(ngModel)]="periodo">
+                        <label class="form-check-label" for="periodoDia">Informe del Día (Hoy)</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="periodo" id="periodoSemana" value="semana"
+                            [(ngModel)]="periodo">
+                        <label class="form-check-label" for="periodoSemana">Informe de la Semana (Desde el
+                            lunes)</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="periodo" id="periodoMes" value="mes"
+                            [(ngModel)]="periodo">
+                        <label class="form-check-label" for="periodoMes">Informe del Mes (Desde el día 1)</label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="destinatarioEmail" class="form-label">Enviar a (Correo Electrónico):</label>
+                    <input type="email" class="form-control" id="destinatarioEmail" [(ngModel)]="destinatario"
+                        placeholder="ejemplo@gmail.com">
+                </div>
+
+                <div *ngIf="mensaje.texto" class="alert"
+                    [ngClass]="{'alert-success': mensaje.tipo === 'success', 'alert-danger': mensaje.tipo === 'danger'}"
+                    role="alert">
+                    {{ mensaje.texto }}
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    (click)="mensaje.texto=''">Cancelar</button>
+                <button type="button" class="btn btn-primary" (click)="enviarInforme()" [disabled]="isLoading">
+                    <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true"></span>
+                    <span *ngIf="!isLoading">Enviar Informe</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

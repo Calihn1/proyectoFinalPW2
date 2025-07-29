@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
 from django.db import models
 from django.db.models import Sum, Count, F, Value, Case, When
+from django.db.models import FloatField, ExpressionWrapper, F, Value, Case, When, Count
 from django.db.models.functions import TruncDay, TruncWeek, TruncMonth
 from .models import Venta, DetalleVenta
 from productos.models import Producto
@@ -69,11 +70,17 @@ class StockStatusAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        queryset = Producto.objects.filter(estado=True).annotate(
+        multiplicacion = ExpressionWrapper(F('stock_minimo') * 1.25, output_field=FloatField())
+        
+        queryset = Producto.objects.filter(
+            estado=True,
+            cantidad__isnull=False,
+            stock_minimo__isnull=False
+        ).annotate(
             status=Case(
                 When(cantidad=0, then=Value('agotado')),
                 When(cantidad__lte=F('stock_minimo'), then=Value('critico')),
-                When(cantidad__lte=F('stock_minimo') * 1.25, then=Value('bajo')),
+                When(cantidad__lte=multiplicacion, then=Value('bajo')),
                 default=Value('suficiente'),
                 output_field=models.CharField(),
             )

@@ -1,18 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Api } from '../../services/api';
-import { NgChartsModule } from 'ng2-charts'; 
-import { Chart, ChartConfiguration, ChartOptions, ChartType, registerables } from 'chart.js';
 import { RouterModule } from '@angular/router';
+import { NgChartsModule, BaseChartDirective } from 'ng2-charts';
+import { Chart, ChartType, ChartConfiguration, ChartOptions, registerables } from 'chart.js';
+import { Api } from '../../services/api';
+
 interface ProductoInfo {
   nombre: string;
   cantidad: number;
   stock_minimo: number;
 }
+
 interface ChartData {
   labels: string[];
   datasets: { data: number[]; label: string; }[];
 }
+
 interface StockStatus {
   status: 'suficiente' | 'bajo' | 'critico' | 'agotado';
   count: number;
@@ -26,15 +29,30 @@ interface StockStatus {
   styleUrls: ['./estadisticas.css']
 })
 export class Estadisticas implements OnInit {
+  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
+
   public lineChartType: ChartType = 'line';
   public lineChartData: ChartConfiguration['data'] = { labels: [], datasets: [] };
-  public lineChartOptions: ChartOptions = { responsive: true, maintainAspectRatio: false };
+  public lineChartOptions: ChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false
+  };
+
   public barChartType: ChartType = 'bar';
   public barChartData: ChartConfiguration['data'] = { labels: [], datasets: [] };
-  public barChartOptions: ChartOptions = { responsive: true, maintainAspectRatio: false, indexAxis: 'y' };
+  public barChartOptions: ChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    indexAxis: 'y'
+  };
+
   public doughnutChartType: ChartType = 'doughnut';
   public doughnutChartData: ChartConfiguration['data'] = { labels: [], datasets: [] };
-  public doughnutChartOptions: ChartOptions = { responsive: true, maintainAspectRatio: false };
+  public doughnutChartOptions: ChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false
+  };
+
   public stockCounts = { suficiente: 0, bajo: 0, critico: 0, agotado: 0 };
 
   public modalTitulo = '';
@@ -51,16 +69,17 @@ export class Estadisticas implements OnInit {
     this.cargarStockStatus();
   }
 
-  verDetalleStock(estado: 'suficiente' | 'bajo' | 'critico' | 'agotado'): void {
+  verDetalleStock(estado: StockStatus['status']): void {
     this.productosModal = [];
     this.isLoadingModal = true;
 
-    switch (estado) {
-      case 'suficiente': this.modalTitulo = 'Productos con Stock Suficiente'; break;
-      case 'bajo': this.modalTitulo = 'Productos con Stock Bajo'; break;
-      case 'critico': this.modalTitulo = 'Productos con Stock Crítico'; break;
-      case 'agotado': this.modalTitulo = 'Productos Agotados'; break;
-    }
+    const titulos: Record<StockStatus['status'], string> = {
+      suficiente: 'Productos con Stock Suficiente',
+      bajo: 'Productos con Stock Bajo',
+      critico: 'Productos con Stock Crítico',
+      agotado: 'Productos Agotados'
+    };
+    this.modalTitulo = titulos[estado];
 
     this.api.get<ProductoInfo[]>(`/estadisticas/productos-por-estado/?estado=${estado}`).subscribe({
       next: (data) => {
@@ -86,6 +105,7 @@ export class Estadisticas implements OnInit {
           tension: 0.3
         }))
       };
+      this.chart?.update();
     });
   }
 
@@ -98,6 +118,7 @@ export class Estadisticas implements OnInit {
           backgroundColor: '#10b981'
         }))
       };
+      this.chart?.update();
     });
   }
 
@@ -120,6 +141,7 @@ export class Estadisticas implements OnInit {
           borderWidth: 1
         }]
       };
+      this.chart?.update();
     });
   }
 }

@@ -24,7 +24,6 @@ export class ModalInforme {
   }
 
   enviarInforme(): void {
-    console.log('Botón presionado');
     if (!this.destinatario) {
       this.mostrarMensaje('Por favor, ingrese un correo electrónico.', 'danger');
       return;

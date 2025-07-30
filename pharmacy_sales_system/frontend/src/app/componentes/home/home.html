@@ -39,7 +39,7 @@
         <div class="col-lg-5 d-flex flex-column">
             <div class="card shadow-sm flex-grow-1">
                 <div class="card-header fw-bold">Productos</div>
-                <div class="card-body p-0">
+                <div class="card-body p-0 overflow-auto" style="height: 550px;">
                     <ul class="list-group list-group-flush message-list">
                         <li *ngFor="let producto of productos" class="list-group-item d-flex align-items-center">
                             {{ producto.codigo }} - {{ producto.nombre }} - S/ {{ producto.precio }}

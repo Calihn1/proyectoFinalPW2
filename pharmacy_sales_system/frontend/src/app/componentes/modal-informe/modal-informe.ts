@@ -10,6 +10,7 @@ import { Api } from '../../services/api';
   templateUrl: './modal-informe.html',
 })
 export class ModalInforme {
+  mostrarFormulario: boolean = false;
   periodo: 'dia' | 'semana' | 'mes' = 'dia';
   destinatario: string = '';
   isLoading: boolean = false;
@@ -17,13 +18,20 @@ export class ModalInforme {
 
   constructor(private api: Api) {}
 
+  toggleFormulario(): void {
+    this.mostrarFormulario = !this.mostrarFormulario;
+    this.mensaje = { texto: '', tipo: '' }; // Reinicia mensajes si lo ocultas
+  }
+
   enviarInforme(): void {
     if (!this.destinatario) {
       this.mostrarMensaje('Por favor, ingrese un correo electrónico.', 'danger');
       return;
     }
+
     this.isLoading = true;
     this.mensaje.texto = '';
+
     const body = { periodo: this.periodo, destinatario: this.destinatario };
 
     this.api.post('/informes/enviar/', body).subscribe({
